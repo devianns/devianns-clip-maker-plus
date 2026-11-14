@@ -23,7 +23,9 @@ export function configuredHandler(development = false) {
   return createAiHandler(
     {
       key: process.env.DEEPSEEK_API_KEY,
-      provider: process.env.AI_PROVIDER ?? 'deepseek',
+      openaiKey: process.env.CHATGPT_API_KEY,
+      openaiModel: process.env.OPENAI_TRANSCRIBE_MODEL,
+      provider: process.env.AI_PROVIDER ?? (process.env.CHATGPT_API_KEY ? 'openai' : 'deepseek'),
       passwordHash: process.env.PASSWORD,
       allowedOrigins: (
         process.env.AI_ALLOWED_ORIGINS ??

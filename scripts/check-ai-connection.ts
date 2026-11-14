@@ -2,8 +2,19 @@
 import { existsSync } from 'node:fs';
 import { createAiHandler } from '../modules/ai-api/server/handler.ts';
 if (existsSync('.env.local')) process.loadEnvFile('.env.local');
-if (!process.env.DEEPSEEK_API_KEY) {
-  console.log(JSON.stringify({ configured: false, error: 'DEEPSEEK_API_KEY is not configured' }));
+const provider = process.argv.includes('--openai')
+  ? 'openai'
+  : (process.env.AI_PROVIDER ?? (process.env.CHATGPT_API_KEY ? 'openai' : 'deepseek'));
+const configured =
+  provider === 'openai' ? !!process.env.CHATGPT_API_KEY : !!process.env.DEEPSEEK_API_KEY;
+if (!configured) {
+  console.log(
+    JSON.stringify({
+      configured: false,
+      provider,
+      error: 'Selected provider API key is not configured',
+    }),
+  );
   process.exitCode = 1;
 } else {
   const bytes = new ArrayBuffer(44 + 16000 * 2),
@@ -29,6 +40,9 @@ if (!process.env.DEEPSEEK_API_KEY) {
   form.set('requestId', 'connection-check');
   const handler = createAiHandler({
     key: process.env.DEEPSEEK_API_KEY,
+    openaiKey: process.env.CHATGPT_API_KEY,
+    openaiModel: process.env.OPENAI_TRANSCRIBE_MODEL,
+    provider,
     development: true,
     allowedOrigins: [],
   });
@@ -39,6 +53,7 @@ if (!process.env.DEEPSEEK_API_KEY) {
   console.log(
     JSON.stringify({
       configured: true,
+      provider,
       status: response.status,
       ok: response.ok,
       ...(response.ok

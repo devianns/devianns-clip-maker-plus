@@ -1,5 +1,6 @@
 import { AiError, LIMITS } from '../shared/contracts.ts';
 import { deepseek } from './providers/deepseek.ts';
+import { openai } from './providers/openai.ts';
 import type { Provider } from './provider.ts';
 import {
   authenticated,
@@ -10,6 +11,8 @@ import {
 } from './password.ts';
 export type ServerConfig = {
   key?: string;
+  openaiKey?: string;
+  openaiModel?: string;
   provider?: string;
   passwordHash?: string;
   allowedOrigins: string[];
@@ -24,8 +27,9 @@ export function createAiHandler(
 ) {
   const providers = new Map<string, Provider>();
   if (config.key) providers.set('deepseek', deepseek(config.key));
+  if (config.openaiKey) providers.set('openai', openai(config.openaiKey, config.openaiModel));
   if (suppliedProvider) providers.set(suppliedProvider.id, suppliedProvider);
-  const provider = providers.get(config.provider ?? 'deepseek');
+  const provider = providers.get(config.provider ?? (config.openaiKey ? 'openai' : 'deepseek'));
   const maxAudioBytes = Math.min(
     LIMITS.maxAudioBytes,
     provider?.audioLimits?.maxAudioBytes ?? LIMITS.maxAudioBytes,

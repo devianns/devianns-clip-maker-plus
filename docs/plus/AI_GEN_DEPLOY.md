@@ -43,7 +43,9 @@ npm run server:start
 | 변수 | 역할 |
 | --- | --- |
 | `DEEPSEEK_API_KEY` | 공급자 인증 키, 프런트에 공개 금지 |
-| `AI_PROVIDER` | 초기 지원값 `deepseek` |
+| `CHATGPT_API_KEY` | OpenAI 공급자 인증 키, 프런트에 공개 금지 |
+| `AI_PROVIDER` | `openai` 또는 `deepseek`. 미지정 시 OpenAI 키가 있으면 openai 우선 |
+| `OPENAI_TRANSCRIBE_MODEL` | OpenAI 전사 모델. 기본 `gpt-transcribe` |
 | `PASSWORD` | `password:hash`로 생성한 scrypt 해시. 운영 필수. 기존 AI_ACCESS_TOKEN을 대체 |
 | `AI_ALLOWED_ORIGINS` | 웹 앱 Origin 목록, 쉼표 구분. 실제 도메인 정확히 지정 |
 | `AI_ADMISSION_URL` | 운영의 공유 요청량 제한 HTTP 서비스 주소 |
