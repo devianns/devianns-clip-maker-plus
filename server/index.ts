@@ -10,9 +10,15 @@ const server = createServer((req, res) => {
 });
 server.requestTimeout = 60_000;
 server.headersTimeout = 15_000;
-server.listen(Number(process.env.AI_PORT ?? 8787), process.env.AI_HOST ?? '127.0.0.1', () =>
-  console.log('AI API server ready'),
-);
+const port = Number(process.env.AI_PORT ?? 8787);
+const host = process.env.AI_HOST ?? '127.0.0.1';
+server.on('error', (error: NodeJS.ErrnoException) => {
+  console.error(error.code === 'EADDRINUSE'
+    ? `AI 서버 포트 ${port}가 이미 사용 중입니다. 이전 개발 서버를 종료한 뒤 다시 실행하세요.`
+    : `AI 서버 시작 실패 (${error.code ?? 'unknown'})`);
+  process.exitCode = 1;
+});
+server.listen(port, host, () => console.log(`AI API server ready: http://${host}:${port}`));
 function shutdown() {
   server.close();
   setTimeout(() => {

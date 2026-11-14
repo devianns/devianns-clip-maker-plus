@@ -6,10 +6,12 @@ Node.js 24를 권장한다. 서버는 Node의 TypeScript 타입 제거 실행을
 
 ```powershell
 npm.cmd ci
-npm.cmd run dev:plus
+npm.cmd run dev
 ```
 
-프런트는 `http://127.0.0.1:5173`, API는 기본 `127.0.0.1:8787`이다. 기존 `npm run dev`는 프런트만 실행하며 AI를 사용하려면 별도 터미널의 `npm run server:dev` 또는 `dev:plus`가 필요하다. 개발 서버만 `.env.local`을 로딩한다. 기본 편집은 AI 서버 없이도 실행할 수 있다.
+프런트는 `http://127.0.0.1:5173`, API는 기본 `127.0.0.1:8787`이다. `npm run dev`는 이제 웹과 AI 서버를 함께 실행한다. 기존 `dev:plus`도 같은 동작이다. 프런트만 실행하려면 `npm run dev:ui`, API만 실행하려면 `npm run server:dev`를 사용한다. 개발 서버만 `.env.local`을 로딩한다. 기본 편집은 AI 서버 없이도 실행할 수 있다.
+
+이전 개발 서버는 Ctrl+C로 종료한 후 다시 실행한다. 터미널에 `AI API server ready: http://127.0.0.1:8787`가 보여야 한다. 웹만 실행된 상태에서 AI를 호출하면 Vite 프록시의 연결 오류(500)가 발생할 수 있다. 환경변수 변경 후에도 서버를 재시작해야 한다.
 
 ```dotenv
 # .env.local — 커밋하지 않음

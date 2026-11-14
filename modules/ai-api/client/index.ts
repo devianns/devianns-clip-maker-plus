@@ -37,7 +37,7 @@ export class AiClient {
       body: JSON.stringify({ password }),
     });
     const value = await response.json().catch(() => {
-      throw new AiError('RESPONSE', 'AI 서버 연결을 확인하세요.');
+      throw new AiError('RESPONSE', 'AI 서버에 연결할 수 없습니다. 터미널에서 npm run dev로 웹과 AI 서버를 함께 실행하세요.');
     });
     if (!response.ok || value.authenticated !== true)
       throw new AiError(

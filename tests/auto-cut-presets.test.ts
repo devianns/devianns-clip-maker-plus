@@ -10,7 +10,7 @@ import {
 it('다섯 음성 단계는 순서대로 판정이 엄격해지며 짧은 말 필터를 끈다', () => {
   const presets = Object.values(PRESETS);
   expect(presets).toHaveLength(5);
-  expect(presets.map((p) => p.options.positive)).toEqual([0.1, 0.3, 0.5, 0.7, 0.9]);
+  expect(presets.map((p) => p.options.positive)).toEqual([0, 0.25, 0.5, 0.75, 1]);
   expect(presets.every((p) => p.options.minSpeechMs === 0)).toBe(true);
   expect(presets[0].options.positive).toBeLessThan(0.3);
   expect(presets.at(-1)!.options.positive).toBeGreaterThan(0.55);
