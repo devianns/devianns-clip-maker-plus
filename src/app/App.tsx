@@ -5,6 +5,8 @@ import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } fro
 import { autoCutUnavailable } from '../../modules/speech-auto-cut/src/eligibility';
 import AutoCaptionDialog, { AutoCaptionBoundary } from '../../modules/auto-caption/src/AutoCaptionDialog';
 import { captionUnavailable } from '../../modules/auto-caption/src/plan';
+import { AiGenBoundary, Pending as AiGenPending } from '../../modules/ai-gen/src/Boundary';
+import { unavailable as aiGenUnavailable } from '../../modules/ai-gen/src/plan';
 import { AutoCutBoundary, AutoCutPending } from '../../modules/speech-auto-cut/src/ModuleBoundary';
 import { AssetPanel } from '../editor/AssetPanel';
 import { ExportDialog } from '../editor/ExportDialog';
@@ -44,6 +46,7 @@ import { selectLineBlocks, timelineBlocks } from '../project/timeline-selection'
 import { autosave, recover, saveProject } from '../storage/project-storage';
 
 const AutoCutDialog = lazy(() => import('../../modules/speech-auto-cut/src/AutoCutDialog'));
+const AiGenDialog = lazy(() => import('../../modules/ai-gen/src/AiGenDialog'));
 
 export function App() {
   const installation = usePwaInstall();
@@ -79,7 +82,7 @@ export function App() {
   const dismissMessage = useCallback(() => setMessage(undefined), []);
   const [notice, setNotice] = useState('영상 파일은 서버로 전송되지 않습니다.');
   const [modal, setModal] = useState<
-    'export' | 'help' | 'recover' | 'autoCut' | 'autoCaption' | 'deleteLane' | 'install'|'newProject'|'deleteAsset'
+    'export' | 'help' | 'recover' | 'autoCut' | 'autoCaption' | 'aiGen' | 'deleteLane' | 'install'|'newProject'|'deleteAsset'
   >();
   const [newProjectRequest,setNewProjectRequest]=useState<Project>();
   const [newProjectSaved,setNewProjectSaved]=useState(false);
@@ -102,6 +105,7 @@ export function App() {
     importing ||
     modal === 'autoCut' ||
     modal === 'autoCaption' ||
+    modal === 'aiGen' ||
     modal === 'deleteLane' ||
     modal === 'newProject' || modal==='deleteAsset' ||
     installation.installing;
@@ -234,6 +238,24 @@ export function App() {
     }
     setModal(undefined); setMessage(undefined);
     setNotice(result === expected ? '감지된 음성이 없어 자막을 생성하지 않았습니다.' : 'Auto Caption 적용 완료 · 새 라인에 빈 자막을 추가했습니다. 실행 취소로 복구할 수 있습니다.');
+  }
+  function applyAiGen(expected: Project, result: Project) {
+    if (modal !== 'aiGen' || historyRef.current.present !== expected || importing || exportState.status === 'running')
+      throw new Error('프로젝트가 변경됐습니다. 취소 후 다시 생성하세요.');
+    if (result !== expected) {
+      const validated = parseProject(JSON.stringify(result));
+      // Only the new subtitle line can cross this boundary; existing project data stays untouched.
+      if (JSON.stringify(validated.clips) !== JSON.stringify(expected.clips) ||
+        JSON.stringify(validated.subtitles.slice(0, expected.subtitles.length)) !== JSON.stringify(expected.subtitles))
+        throw new Error('AI 결과에 기존 타임라인 변경이 포함되어 있습니다.');
+      const next = historyReducer(historyRef.current, {type:'command',command:{type:'replaceTimeline',
+        clips:expected.clips, subtitles:validated.subtitles, laneCount:validated.laneCount}});
+      playback.pause(); historyRef.current = next; setHistory(next);
+      setActiveLane(laneCount(validated)-1); setSelected(undefined);setSelectedIds([]);setSelectedCue(undefined);setSelectedCueIds([]);
+      setInspectorTab('subtitle');
+    }
+    setModal(undefined);setMessage(undefined);
+    setNotice(result === expected ? '생성할 자막이 없습니다.' : 'AI Gen 적용 완료 · 실행 취소로 복구할 수 있습니다.');
   }
   function split() {
     command({ type: 'split', timeUs: playState.timeUs });
@@ -715,6 +737,11 @@ export function App() {
           selectedCueIds={selectedCueIds}
           autoCutUnavailable={autoCutReason}
           autoCaptionUnavailable={autoCaptionReason}
+          aiGenUnavailable={aiGenUnavailable(project, registry, captionLane)}
+          onAiGen={() => {
+            if (locked || aiGenUnavailable(project,registry,captionLane)) return;
+            playback.pause();setModal('aiGen');
+          }}
           onAutoCaption={() => {
             if (locked || captionUnavailable(project, registry, captionLane)) return;
             playback.pause();
@@ -764,6 +791,14 @@ export function App() {
           WEB CODECS <b>·</b> LOCAL FIRST
         </span>
       </footer>
+      {modal === 'aiGen' && (
+        <AiGenBoundary onCancel={() => setModal(undefined)}>
+          <Suspense fallback={<AiGenPending onCancel={() => setModal(undefined)}/>}>
+            <AiGenDialog project={project} lane={captionLane} registry={registry}
+              onCancel={() => setModal(undefined)} onApply={applyAiGen}/>
+          </Suspense>
+        </AiGenBoundary>
+      )}
       {modal === 'autoCaption' && (
         <AutoCaptionBoundary onCancel={() => setModal(undefined)}>
           <AutoCaptionDialog project={project} lane={captionLane} registry={registry}

@@ -1,6 +1,8 @@
-# Devianns Clip Maker
+# Devianns Clip Maker Plus
 
-로컬 영상으로 컷을 만들고, 한글 자막을 입혀 내보내는 브라우저 영상 편집기입니다. GitHub Pages 같은 정적 호스트에서 실행하며 영상·소리·자막은 서버에 업로드하지 않습니다.
+로컬 영상으로 컷을 만들고, 한글 자막을 입혀 내보내는 브라우저 영상 편집기입니다. 기본 편집은 로컬에서 처리하고, Plus의 **AI Gen**을 실행할 때만 음성 구간을 자체 백엔드와 AI 공급자로 전송하여 실제 자막을 생성합니다. AI 기능에는 백엔드가 필요합니다.
+
+Plus 실행은 `npm run dev:plus`를 사용합니다. 서버 전용 `.env.local`에 `DEEPSEEK_API_KEY`를 설정하세요. [실행·배포 안내](./docs/plus/AI_GEN_DEPLOY.md), [AI 구현 체크리스트](./docs/plus/clip_maker_plus_ai_checklist_v1.md)를 참고하세요. 이번 최소 API 확인에서는 공급자 HTTP 402가 반환되어 실제 전사 성공은 미확인입니다. 기존 아래 검증 기록은 기본 편집기의 과거 기록이며 Plus AI 기능의 검증 결과가 아닙니다.
 
 현재 첫 편집기를 구현했습니다. 실제 Windows Edge에서 기능을 검증했으며, 공개 GitHub Pages 배포는 아직 수행하지 않았습니다. 기능별 완료 상태는 [고정 체크리스트](./CHECKLIST.md), 검사 환경과 결과는 [구현 기록](./IMPLEMENTATION.md)을 참고하세요.
 

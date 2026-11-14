@@ -22,7 +22,7 @@ export function Toolbar(p: Props) {
     <header className="toolbar">
       <div className="brand">
         <span>
-          Devianns <strong>Clip Maker</strong>
+          Devianns <strong>Clip Maker Plus</strong>
         </span>
       </div>
       <div className="project-name">

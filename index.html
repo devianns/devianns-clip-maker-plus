@@ -5,24 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="브라우저에서 로컬 영상을 컷 편집하고 자막·음성 기반 자동 컷을 적용해 MP4/WebM으로 내보내세요. 영상 파일은 서버로 업로드하지 않습니다."
+      content="로컬 영상 편집과 AI Gen 자동 자막 생성을 지원합니다. AI 기능 실행 시에만 음성 구간을 서버와 AI 공급자로 전송합니다."
     />
     <meta name="theme-color" content="#101010" />
-    <meta name="application-name" content="Devianns Clip Maker" />
+    <meta name="application-name" content="Devianns Clip Maker Plus" />
     <meta name="robots" content="index, follow" />
-    <title>Devianns Clip Maker</title>
+    <title>Devianns Clip Maker Plus</title>
     <link rel="canonical" href="https://devianns.github.io/devianns-clip-maker/" />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg?v=2" />
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="apple-touch-icon" sizes="180x180" href="./pwa/apple-touch-icon-v2.png" />
-    <meta name="apple-mobile-web-app-title" content="Devianns Clip Maker" />
+    <meta name="apple-mobile-web-app-title" content="Devianns Clip Maker Plus" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ko_KR" />
-    <meta property="og:site_name" content="Devianns Clip Maker" />
-    <meta property="og:title" content="Devianns Clip Maker" />
+    <meta property="og:site_name" content="Devianns Clip Maker Plus" />
+    <meta property="og:title" content="Devianns Clip Maker Plus" />
     <meta
       property="og:description"
-      content="영상 업로드 없이 브라우저에서 컷 편집, 자막, 음성 기반 AUTO CUT과 MP4/WebM 내보내기를 이용하세요."
+      content="브라우저 영상 편집, AUTO CUT, AI Gen 자동 자막 생성과 MP4/WebM 내보내기를 이용하세요. AI 실행 시 음성을 외부로 전송합니다."
     />
     <meta property="og:url" content="https://devianns.github.io/devianns-clip-maker/" />
     <meta
@@ -34,13 +34,13 @@
     <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
-      content="Devianns Clip Maker — Local Video Editor. 컷 편집, 자막, AUTO CUT, 영상 내보내기."
+      content="Devianns Clip Maker Plus — Local Video Editor. 컷 편집, 자막, AUTO CUT, 영상 내보내기."
     />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Devianns Clip Maker" />
+    <meta name="twitter:title" content="Devianns Clip Maker Plus" />
     <meta
       name="twitter:description"
-      content="영상 업로드 없이 브라우저에서 컷 편집, 자막, 음성 기반 AUTO CUT과 MP4/WebM 내보내기를 이용하세요."
+      content="브라우저 영상 편집, AUTO CUT, AI Gen 자동 자막 생성과 MP4/WebM 내보내기를 이용하세요. AI 실행 시 음성을 외부로 전송합니다."
     />
     <meta
       name="twitter:image"
@@ -48,13 +48,13 @@
     />
     <meta
       name="twitter:image:alt"
-      content="Devianns Clip Maker — Local Video Editor. 컷 편집, 자막, AUTO CUT, 영상 내보내기."
+      content="Devianns Clip Maker Plus — Local Video Editor. 컷 편집, 자막, AUTO CUT, 영상 내보내기."
     />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "WebApplication",
-        "name": "Devianns Clip Maker",
+        "name": "Devianns Clip Maker Plus",
         "url": "https://devianns.github.io/devianns-clip-maker/",
         "description": "브라우저에서 로컬 영상의 컷 편집, 수동 자막, 음성 기반 자동 컷과 MP4/WebM 내보내기를 제공하는 영상 편집기입니다.",
         "applicationCategory": "MultimediaApplication",
@@ -74,7 +74,7 @@
   </head>
   <body>
     <div id="root">
-      <p id="boot-status" role="status">Devianns Clip Maker를 불러오는 중입니다…</p>
+      <p id="boot-status" role="status">Devianns Clip Maker Plus를 불러오는 중입니다…</p>
     </div>
     <noscript>편집기를 실행하려면 브라우저에서 JavaScript를 허용해 주세요.</noscript>
     <script>

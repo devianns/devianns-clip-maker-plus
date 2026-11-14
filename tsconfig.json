@@ -14,5 +14,5 @@
     "noUnusedParameters": true,
     "types": ["vite/client"]
   },
-  "include": ["src", "tests", "modules/speech-auto-cut/src", "vite.config.ts"]
+  "include": ["src", "tests", "modules/speech-auto-cut/src", "modules/ai-gen/src", "modules/ai-api/client", "modules/ai-api/shared", "vite.config.ts"]
 }

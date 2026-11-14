@@ -64,6 +64,8 @@
 - [clip_maker_plus_ai_v2.md](./plus/clip_maker_plus_ai_v2.md)
 - [clip_maker_plus_ai_v3.md](./plus/clip_maker_plus_ai_v3.md)
 - [clip_maker_plus_ai_checklist_v1.md](./plus/clip_maker_plus_ai_checklist_v1.md)
+- [AI Gen 실행·배포](./plus/AI_GEN_DEPLOY.md)
+- [AI 비밀번호 접근 V1](./plus/clip_maker_plus_ai_password_v1.md)
 
 ## 기본 문서
 

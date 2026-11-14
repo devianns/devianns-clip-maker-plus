@@ -1,0 +1,37 @@
+.ai-gen-dialog {
+  width: 680px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ai-gen-dialog > header {
+  margin-bottom: 0;
+}
+.ai-gen-dialog progress {
+  width: 100%;
+  accent-color: var(--accent);
+}
+.ai-gen-consent {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  line-height: 1.7;
+}
+.ai-gen-consent input {
+  flex-shrink: 0;
+}
+.ai-gen-results {
+  display: grid;
+  gap: 10px;
+  max-height: 38dvh;
+  overflow: auto;
+}
+.ai-gen-results textarea {
+  min-height: 64px;
+}
+.ai-gen-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}

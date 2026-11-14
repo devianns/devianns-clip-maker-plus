@@ -50,6 +50,8 @@ type Props = {
   autoCutUnavailable?: string;
   onAutoCaption: () => void;
   autoCaptionUnavailable?: string;
+  onAiGen: () => void;
+  aiGenUnavailable?: string;
 };
 export function Timeline(p: Props) {
   const scroll = useRef<HTMLDivElement>(null);
@@ -278,6 +280,9 @@ export function Timeline(p: Props) {
               onClick={p.onAutoCaption}>
               <TimelineIcon name="auto" />
               AUTO CAPTION
+            </button>
+            <button disabled={p.locked || !!p.aiGenUnavailable} title={p.aiGenUnavailable ?? 'AI Gen 자동 자막 생성'} onClick={p.onAiGen}>
+              <TimelineIcon name="auto" />AI Gen
             </button>
           </div>
         </div>
